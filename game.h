@@ -13,9 +13,7 @@ class Game : public graphics::AnimationEventListener,
              public graphics::MouseEventListener {
  public:
   Game() : Game(800, 600) {}
-  Game(int width, int height) {
-    background_.Initialize(width, height);
-  }
+  Game(int width, int height) { background_.Initialize(width, height); }
   graphics::Image& GetGameScreen() { return background_; }
   void LaunchProjectiles();
   void CreateOpponents();
@@ -37,18 +35,16 @@ class Game : public graphics::AnimationEventListener,
   Player& GetPlayer() { return player; }
   int GetScore() const { return score_; }
   bool HasLost() { return lost_; }
-  
+
  private:
   int score_ = 0;
   bool lost_ = false;
   graphics::Image background_;
   std::vector<std::unique_ptr<Opponent>> opponents_;
-  std::vector<std::unique_ptr<OpponentProjectile>>
-      opponent_projectiles_;  
-  std::vector<std::unique_ptr<PlayerProjectile>>
-      player_projectiles_;  
+  std::vector<std::unique_ptr<OpponentProjectile>> opponent_projectiles_;
+  std::vector<std::unique_ptr<PlayerProjectile>> player_projectiles_;
   Player player;
-  Player playerUpgrade; 
+  Player playerUpgrade;
 };
- 
+
 #endif

@@ -30,7 +30,7 @@ void Game::Init() {
   background_.AddAnimationEventListener(*this);
   return;
 }
- 
+
 void Game::RemoveInactive() {
   for (int i = opponents_.size() - 1; i >= 0; i--) {
     if (opponents_[i]->GetIsActive() == false) {
@@ -74,37 +74,33 @@ void Game::UpdateScreen() {
     }
   }
   if (HasLost()) {
-    background_.DrawRectangle(0,0, background_.GetWidth(),
-    background_.GetHeight(), 0,0,0);
+    background_.DrawRectangle(0, 0, background_.GetWidth(),
+                              background_.GetHeight(), 0, 0, 0);
     std::string game_over = "GAME OVER";
-    background_.DrawText(150, 250, game_over , 100, 255, 255, 255);
+    background_.DrawText(150, 250, game_over, 100, 255, 255, 255);
   }
 }
- 
-void Game::Start() {
-  background_.ShowUntilClosed();
-}
- 
+
+void Game::Start() { background_.ShowUntilClosed(); }
+
 void Game::MoveGameElements() {
   for (int i = 0; i < opponents_.size(); i++) {
     if (opponents_[i]->GetIsActive()) {
       opponents_[i]->Move(background_);
     }
   }
- 
   for (int i = 0; i < opponent_projectiles_.size(); i++) {
     if (opponent_projectiles_[i]->GetIsActive()) {
       opponent_projectiles_[i]->Move(background_);
     }
   }
- 
   for (int i = 0; i < player_projectiles_.size(); i++) {
     if (player_projectiles_[i]->GetIsActive()) {
       player_projectiles_[i]->Move(background_);
     }
   }
 }
- 
+
 void Game::FilterIntersections() {
   for (int i = 0; i < opponents_.size(); i++) {
     if (opponents_[i]->IntersectsWith(&player) &&
@@ -119,11 +115,10 @@ void Game::FilterIntersections() {
           opponents_[i]->GetIsActive()) {
         player_projectiles_[j]->SetIsActive(false);
         opponents_[i]->SetIsActive(false);
-        if (player.GetIsActive()) { 
+        if (player.GetIsActive()) {
           score_++;
-        }
-        else if (player.GetIsActive() == true) {
-          score_+=5; 
+        } else if (player.GetIsActive() == true) {
+          score_ += 5;
         }
       }
     }
@@ -137,7 +132,7 @@ void Game::FilterIntersections() {
     }
   }
 }
- 
+
 void Game::OnAnimationStep() {
   if (opponents_.size() == 0 && !(HasLost())) {
     CreateOpponents();
@@ -149,9 +144,8 @@ void Game::OnAnimationStep() {
   UpdateScreen();
   background_.Flush();
 }
- 
+
 void Game::OnMouseEvent(const graphics::MouseEvent& event) {
-  // boundaries check
   if ((event.GetMouseAction() == graphics::MouseAction::kMoved ||
        event.GetMouseAction() == graphics::MouseAction::kDragged) &&
       (event.GetX() > 0 && event.GetX() < background_.GetWidth()) &&
@@ -160,18 +154,17 @@ void Game::OnMouseEvent(const graphics::MouseEvent& event) {
     player.SetY(event.GetY() - player.GetWidth() / 2);
   }
   if (event.GetMouseAction() == graphics::MouseAction::kDragged ||
-    event.GetMouseAction() == graphics::MouseAction::kPressed) {
+      event.GetMouseAction() == graphics::MouseAction::kPressed) {
     std::unique_ptr<PlayerProjectile> playerProjectilePtr =
-      std::make_unique<PlayerProjectile>(event.GetX(), event.GetY());
+        std::make_unique<PlayerProjectile>(event.GetX(), event.GetY());
     player_projectiles_.push_back(std::move(playerProjectilePtr));
   }
- 
-  if (HasLost() && event.GetMouseAction() == graphics::MouseAction::kPressed ) {
-    player.SetIsActive(true); 
-    score_ = 0; 
+  if (HasLost() && event.GetMouseAction() == graphics::MouseAction::kPressed) {
+    player.SetIsActive(true);
+    score_ = 0;
     lost_ = false;
     player.SetX(10);
     player.SetY(10);
-    player.Draw(background_); 
+    player.Draw(background_);
   }
 }
