@@ -149,7 +149,7 @@ void Game::FilterIntersections() {
 }
  
 void Game::OnAnimationStep() {
-  if (opponents_.size() == 0) {
+  if (opponents_.size() == 0 && !(HasLost())) {
     CreateOpponents();
   }
   MoveGameElements();
