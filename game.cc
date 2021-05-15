@@ -54,38 +54,28 @@ void Game::RemoveInactive() {
 void Game::UpdateScreen() {
   background_.Load("background.bmp");
   std::string score = "SCORE: " + std::to_string(score_);
-  if (player.GetIsActive() == true) {
+  if (player.GetIsActive()) {
     background_.DrawText(1, 1, score, 20, 255, 255, 255);
     player.Draw(background_);
   }
   for (int i = 0; i < opponents_.size(); i++) {
-    if (opponents_[i]->GetIsActive() == true) {
+    if (opponents_[i]->GetIsActive()) {
       opponents_[i]->Draw(background_);
     }
   }
   for (int i = 0; i < opponent_projectiles_.size(); i++) {
-    if (opponent_projectiles_[i]->GetIsActive() == true) {
+    if (opponent_projectiles_[i]->GetIsActive()) {
       opponent_projectiles_[i]->Draw(background_);
     }
   }
   for (int i = 0; i < player_projectiles_.size(); i++) {
-    if (player_projectiles_[i]->GetIsActive() == true) {
+    if (player_projectiles_[i]->GetIsActive()) {
       player_projectiles_[i]->Draw(background_);
     }
   }
   if (HasLost()) {
     background_.DrawRectangle(0,0, background_.GetWidth(),
     background_.GetHeight(), 0,0,0);
-    player.SetIsActive(false);
-    for (int i = 0; i < opponents_.size(); i++) {
-      opponents_[i]->SetIsActive(false);
-    }
-    for (int i = 0; i < opponent_projectiles_.size(); i++) {
-      opponent_projectiles_[i]->SetIsActive(false);
-    }
-    for (int i = 0; i < player_projectiles_.size(); i++) {
-      player_projectiles_[i]->SetIsActive(false);
-    }
     std::string game_over = "GAME OVER";
     background_.DrawText(150, 250, game_over , 100, 255, 255, 255);
   }
